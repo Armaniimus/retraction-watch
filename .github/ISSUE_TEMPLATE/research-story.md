@@ -6,7 +6,7 @@ labels: Research-Story
 
 ---
 ## Description
-ALS team WILLEN WIJ {informatie} ZODAT {reden}
+ALS team WILLEN WIJ {informatie}, ZODAT {reden}
 
 ## Definition of ready (requirements voordat je met de story begint)
 - [ ] requirement1
@@ -22,4 +22,4 @@ ALS team WILLEN WIJ {informatie} ZODAT {reden}
 - [ ] criteria2
 
 ## Definition of Done:
-- Er is voldaan aan alle acceptatie en kwaliteitskriteria
+- Er is voldaan aan alle acceptatie en kwaliteitscriteria

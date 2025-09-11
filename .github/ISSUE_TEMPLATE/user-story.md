@@ -22,4 +22,4 @@ ALS {rol} WIL IK {functionaliteit}, ZODAT {reden}
 - [ ] criteria2
 
 ## Definition of Done:
-- Er is voldaan aan alle acceptatie en kwaliteitskriteria
+- Er is voldaan aan alle acceptatie en kwaliteitscriteria

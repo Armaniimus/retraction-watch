@@ -6,7 +6,7 @@ labels: Learning-Story
 
 ---
 ## Beschrijving
-ALs student WIL IK {vaardigheid of kennis}, ZODAT {reden}
+ALS student WIL IK {vaardigheid of kennis}, ZODAT {reden}
 
 ## Definition of ready (requirements voordat je met de story begint)
 - [ ] requirement1
@@ -22,4 +22,4 @@ ALs student WIL IK {vaardigheid of kennis}, ZODAT {reden}
 - [ ] criteria2
 
 ## Definition of Done:
-- Er is voldaan aan alle acceptatie en kwaliteitskriteria
+- Er is voldaan aan alle acceptatie en kwaliteitscriteria
