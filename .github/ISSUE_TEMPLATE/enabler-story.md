@@ -1,12 +1,12 @@
 ---
 name: Enabler-Story
 about: A enablerstory template
-title: ALS team WILLen WIJ {functionaliteit}
+title: ALS team WILLEN WIJ {functionaliteit}
 labels: Enabler-Story
 
 ---
 ## Beschrijving
-ALS team WILLen WIJ {functionaliteit}, ZODAT {reden}
+ALS team WILLEN WIJ {functionaliteit}, ZODAT {reden}
 
 ## Definition of ready (Wat heb ik nodig om te starten)
 - [ ] requirement1
