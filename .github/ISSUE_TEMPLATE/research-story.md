@@ -1,21 +1,25 @@
 ---
 name: Research-Story
 about: A researchstory template
-title: AS Developer I want {information}
+title: ALS team WILLEN WIJ {informatie}
 labels: Research-Story
-assignees: Armaniimus
 
 ---
 ## Description
-AS Developer I want {information}, SO THAT {reason}
+ALS team WILLEN WIJ {informatie} ZODAT {reden}
 
-## Definition of ready (requirements in order to start)
+## Definition of ready (requirements voordat je met de story begint)
 - [ ] requirement1
 - [ ] requirement2
 
-## Definition of Done:
-- All tasks are completed.
 
-## Tasks:
-- [ ] required task1
-- [ ] required task2
+## Acceptatie criteria
+- [ ] criteria1
+- [ ] criteria2
+
+## Kwaliteits criteria
+- [ ] criteria1
+- [ ] criteria2
+
+## Definition of Done:
+- Er is voldaan aan alle acceptatie en kwaliteitskriteria

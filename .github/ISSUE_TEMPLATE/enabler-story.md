@@ -1,21 +1,25 @@
 ---
 name: Enabler-Story
 about: A enablerstory template
-title: AS A developer I WANT {functionality}
+title: ALS team WILLen WIJ {functionaliteit}
 labels: Enabler-Story
-assignees: Armaniimus
 
 ---
-## Description
-AS A developer I WANT {functionality}, SO THAT {reason}
+## Beschrijving
+ALS team WILLen WIJ {functionaliteit}, ZODAT {reden}
 
-## Definition of ready (requirements in order to start)
+## Definition of ready (requirements voordat je met de story begint)
 - [ ] requirement1
 - [ ] requirement2
 
-## Definition of Done:
-- All tasks are completed.
 
-## Tasks:
-- [ ] required task1
-- [ ] required task2
+## Acceptatie criteria
+- [ ] criteria1
+- [ ] criteria2
+
+## Kwaliteits criteria
+- [ ] criteria1
+- [ ] criteria2
+
+## Definition of Done:
+- Er is voldaan aan alle acceptatie en kwaliteitskriteria

@@ -1,21 +1,25 @@
 ---
 name: User-Story
 about: A userstory template
-title: AS A {user} I WANT {functionality}
+title: ALS {rol} WIL IK {functionaliteit}
 labels: User-Story
-assignees: Armaniimus
 
 ---
 ## Description
-AS A {user} I WANT {functionality}, SO THAT {reason}
+ALS {rol} WIL IK {functionaliteit}, ZODAT {reden}
 
-## Definition of ready (requirements in order to start)
+## Definition of ready (requirements voordat je met de story begint)
 - [ ] requirement1
 - [ ] requirement2
 
-## Definition of Done:
-- All tasks are completed.
 
-## Tasks:
-- [ ] required task1
-- [ ] required task2
+## Acceptatie criteria
+- [ ] criteria1
+- [ ] criteria2
+
+## Kwaliteits criteria
+- [ ] criteria1
+- [ ] criteria2
+
+## Definition of Done:
+- Er is voldaan aan alle acceptatie en kwaliteitskriteria
