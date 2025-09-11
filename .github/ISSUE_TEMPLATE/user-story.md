@@ -5,7 +5,7 @@ title: ALS {rol} WIL IK {functionaliteit}
 labels: User-Story
 
 ---
-## Description
+## Beschrijving
 ALS {rol} WIL IK {functionaliteit}, ZODAT {reden}
 
 ## Definition of ready (requirements voordat je met de story begint)

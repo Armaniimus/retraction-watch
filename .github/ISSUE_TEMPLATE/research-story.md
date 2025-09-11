@@ -5,7 +5,7 @@ title: ALS team WILLEN WIJ {informatie}
 labels: Research-Story
 
 ---
-## Description
+## Beschrijving
 ALS team WILLEN WIJ {informatie}, ZODAT {reden}
 
 ## Definition of ready (requirements voordat je met de story begint)
