@@ -13,11 +13,11 @@ ALS team WILLen WIJ {functionaliteit}, ZODAT {reden}
 - [ ] requirement2
 
 
-## Acceptatie criteria
+## Acceptatiecriteria
 - [ ] criteria1
 - [ ] criteria2
 
-## Kwaliteits criteria
+## Kwaliteitscriteria
 - [ ] criteria1
 - [ ] criteria2
 
