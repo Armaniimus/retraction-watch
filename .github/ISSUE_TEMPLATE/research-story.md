@@ -14,8 +14,8 @@ ALS team WILLEN WIJ {informatie}, ZODAT {reden}
 
 
 ## Acceptatiecriteria
-- [ ] criteria1
-- [ ] criteria2
+- [ ] Er is verslaglegging gedaan over de uitkomsten van de analyse.
+- [ ] Er is beschreven hoe we tot de uitkomsten gekomen zijn.
 
 ## Kwaliteitscriteria
 - [ ] criteria1
