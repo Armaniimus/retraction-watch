@@ -1,7 +1,11 @@
 import pandas as pd
 
 def get_csv(source, index, array):
-	df = pd.read_csv(source, index_col=index, usecols=array, chunksize=100_000)
+	df = pd.read_csv(source, index_col=index, usecols=array)
+	return df
+
+def get_chunked_csv(source, index, array, chunksize=100_000):
+	df = pd.read_csv(source, index_col=index, usecols=array, chunksize=chunksize)
 	return df
 
 def save_csv(df, path):
