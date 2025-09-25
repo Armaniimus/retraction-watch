@@ -12,4 +12,5 @@ def save_days_inbetween():
 	data = add_counted_dates(df)
 	save_csv(data, "data/dates.csv")
 
-save_days_inbetween()
+# save_days_inbetween()
+# saveUniqueSubjects()

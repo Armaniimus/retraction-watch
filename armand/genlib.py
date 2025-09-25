@@ -14,6 +14,9 @@ def save_csv(df, path):
 def count(df, colName):
 	return df[colName].value_counts()
 
+def count_total_values(df, colName):
+	return df[colName].nunique()
+
 def add_none_column(df):
 	return df.assign(None)
 
