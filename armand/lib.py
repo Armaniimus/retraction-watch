@@ -13,11 +13,11 @@ def add_counted_dates(df):
 
 	return out
 
-def get_unique_subjects(df):
+def get_unique_values(df, colName):
 	subjects = {}
 
 	for i in range(len(df)):
-		rowSubjects = df.iloc[i]['Subject'].split(';')
+		rowSubjects = df.iloc[i][colName].split(';')
 
 		for s in rowSubjects:
 			if s in subjects.keys():
@@ -27,7 +27,7 @@ def get_unique_subjects(df):
 
 	out = {
 		"count": [],
-		"subject": []
+		colName: []
 	}
 	index = []
 
@@ -35,8 +35,22 @@ def get_unique_subjects(df):
 	for key in subjects.keys():
 		index.append(id)
 		out["count"].append(subjects[key])
-		out["subject"].append(key)
+		out[colName].append(key)
 		id += 1
 	out = pd.DataFrame(out, index=index)
 	out.index.name = "ID"
 	return out
+
+def cut2022(df):
+	# Convert 'published' column to datetime
+	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
+
+	# Filter rows where year == 2022
+	return df[df["OriginalPaperDate"].dt.year == 2022]
+
+def cutNot2022(df):
+	# Convert 'published' column to datetime
+	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
+
+	# Filter rows where year == 2022
+	return df[df["OriginalPaperDate"].dt.year != 2022]
