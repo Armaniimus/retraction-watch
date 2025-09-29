@@ -7,6 +7,12 @@ def saveUniqueSubjects():
 	save_csv(data, "data/subjects.csv")
 	print_dataframe(data)
 
+def saveUniqueCodes():
+	df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Institution', 'Journal', 'Publisher', 'Country', 'Author', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
+	data = get_unique_codes(df, "Subject")
+	save_csv(data, "data/codes.csv")
+	print_dataframe(data)
+
 def save_days_inbetween():
 	df = get_chunked_csv('data/source.csv', 'Record ID', ['Record ID', 'RetractionDate', 'OriginalPaperDate'], 100_000)
 	data = add_counted_dates(df)
@@ -27,9 +33,24 @@ def visualize_general(collumn, in2022, cutPercentage):
 	data = combine_into_others(data, cutPercentage, collumn)
 	visualize(data, title, collumn, 'count', path)
 	
+def visualize_codes(in2022, cutPercentage):
+	df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject", 'OriginalPaperDate' ])
+	if in2022:
+		df2022 = cutNot2022(df)
+		title = f'Distribution of codes outside of 2022'
+		path = f"figures/codes-not2022.png"
+	else:
+		df2022 = cut2022(df)
+		title = f'Distribution of codes in 2022'
+		path = f"figures/codes-2022.png"
+	data = get_unique_codes(df2022, "Subject")
+
+	data = combine_into_others(data, cutPercentage, "code")
+	visualize(data, title, "code", 'count', path)
 
 # save_days_inbetween()
-saveUniqueSubjects()
+# saveUniqueSubjects()
+# saveUniqueCodes()
 # subjectsIn2022()
 
 # visualize_general("Subject", True, 1.5)
@@ -40,3 +61,5 @@ saveUniqueSubjects()
 
 # visualize_general("Reason", True, 1)
 # visualize_general("Reason", False, 1)
+visualize_codes(True, 1)
+visualize_codes(False, 1)

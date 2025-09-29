@@ -57,6 +57,7 @@ def visualize_reasons_Not2022():
 	data = combine_into_others(data, 1, "Reason")
 	visualize(data, 'Distribution of reasons outside of 2022', 'Reason', 'count', "figures/reasons-not2022.png")
 
+
 # visualizeSubjects()
 # visualizeSubjectsNot2022()
 
