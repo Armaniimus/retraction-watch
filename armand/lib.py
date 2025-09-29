@@ -13,17 +13,17 @@ def add_counted_dates(df):
 
 	return out
 
-def get_unique_values(df, colName):
-	subjects = {}
-
-	for i in range(len(df)):
-		rowSubjects = df.iloc[i][colName].split(';')
-
-		for s in rowSubjects:
-			if s in subjects.keys():
-				subjects[s] += 1
+def get_unique_values(dfIn, colName):
+	unique_values = {}
+	
+	df = dfIn[[colName]].copy()
+	for row in df.itertuples():
+		splitfield = getattr(row, colName).split(';')
+		for s in splitfield:
+			if s in unique_values.keys():
+				unique_values[s] += 1
 			elif s != '':
-				subjects[s] = 1		
+				unique_values[s] = 1		
 
 	out = {
 		"count": [],
@@ -32,9 +32,9 @@ def get_unique_values(df, colName):
 	index = []
 
 	id = 0
-	for key in subjects.keys():
+	for key in unique_values.keys():
 		index.append(id)
-		out["count"].append(subjects[key])
+		out["count"].append(unique_values[key])
 		out[colName].append(key)
 		id += 1
 	out = pd.DataFrame(out, index=index)
