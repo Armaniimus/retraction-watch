@@ -41,6 +41,36 @@ def get_unique_values(df, colName):
 	out.index.name = "ID"
 	return out
 
+def get_unique_codes(dfIn, colName):
+	df = get_unique_values(dfIn, colName)
+
+	unique_values = {}
+	for row in df.itertuples():
+		field = getattr(row, colName)
+		count = getattr(row, "count")
+		code = field[field.find('(') + 1:field.find(')')]
+		
+		if code in unique_values.keys():
+			unique_values[code] += count
+		elif code != '':
+			unique_values[code] = count	
+
+	out = {
+		"count": [],
+		"code": []
+	}
+	index = []
+
+	id = 0
+	for key in unique_values.keys():
+		index.append(id)
+		out["count"].append(unique_values[key])
+		out["code"].append(key)
+		id += 1
+	out = pd.DataFrame(out, index=index)
+	out.index.name = "ID"
+	return out
+
 def cut2022(df):
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
