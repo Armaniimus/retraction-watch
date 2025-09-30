@@ -33,7 +33,6 @@ def print_dataframe(df, max=float('inf')):
 		
 	print(headline)
 
-
 	index = 0
 	for item in df.itertuples():
 		if (max < index ):
@@ -48,11 +47,11 @@ def print_dataframe(df, max=float('inf')):
 		
 		print(f"{line}")
 
-def visualize(df, title, index, count, path=""):
-	df.set_index(index, inplace=True)
-	df.sort_values(by=count, ascending=True)
-	plt.figure(figsize=(16, 16))
-	df[count].plot.pie(
+def visualize(df, title, labels, data, path=""):
+	df.set_index(labels, inplace=True)
+	df.sort_values(by=data, ascending=True)
+	plt.figure(figsize=(10, 10))
+	df[data].plot.pie(
 		autopct="%1.1f%%",      # show percentages
 		startangle=180,         # rotate start angle
 		ylabel="",              # remove y-axis label
@@ -64,24 +63,3 @@ def visualize(df, title, index, count, path=""):
 		plt.savefig(path, bbox_inches='tight')
 	else:
 		plt.show()
-
-def combine_into_others(df, split_percentage, index):
-	total = df["count"].sum()
-
-	# Calculate percentage
-	df["percent"] = df["count"] / total * 100
-
-	# Split into two groups: >=1% and <1%
-	main_df = df[df["percent"] >= split_percentage].copy()
-	others_df = df[df["percent"] < split_percentage].copy()
-
-	# Combine the small ones into a single "Others" row
-	others_sum = others_df["count"].sum()
-	if others_sum > 0:
-		main_df = pd.concat([
-			main_df,
-			pd.DataFrame({index: ["Others"], "count": [others_sum]})
-		], ignore_index=True)
-
-	# Sort again if needed
-	return main_df.sort_values(by="count", ascending=False).reset_index(drop=True)

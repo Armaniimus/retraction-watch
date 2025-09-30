@@ -18,36 +18,6 @@ def save_days_inbetween():
 	data = add_counted_dates(df)
 	save_csv(data, "data/dates.csv")
 
-def visualize_general(collumn, in2022, cutPercentage):
-	df = get_csv('data/source.csv', 'Record ID', ['Record ID', collumn, 'OriginalPaperDate' ])
-	if in2022:
-		df2022 = cutNot2022(df)
-		title = f'Distribution of {collumn}s outside of 2022'
-		path = f"figures/{collumn}s-not2022.png"
-	else:
-		df2022 = cut2022(df)
-		title = f'Distribution of {collumn}s in 2022'
-		path = f"figures/{collumn}s-2022.png"
-	data = get_unique_values(df2022, collumn)
-
-	data = combine_into_others(data, cutPercentage, collumn)
-	visualize(data, title, collumn, 'count', path)
-	
-def visualize_codes(in2022, cutPercentage):
-	df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject", 'OriginalPaperDate' ])
-	if in2022:
-		df2022 = cutNot2022(df)
-		title = f'Distribution of codes outside of 2022'
-		path = f"figures/codes-not2022.png"
-	else:
-		df2022 = cut2022(df)
-		title = f'Distribution of codes in 2022'
-		path = f"figures/codes-2022.png"
-	data = get_unique_codes(df2022, "Subject")
-
-	data = combine_into_others(data, cutPercentage, "code")
-	visualize(data, title, "code", 'count', path)
-
 # save_days_inbetween()
 # saveUniqueSubjects()
 # saveUniqueCodes()
@@ -61,5 +31,8 @@ def visualize_codes(in2022, cutPercentage):
 
 # visualize_general("Reason", True, 1)
 # visualize_general("Reason", False, 1)
-visualize_codes(True, 1)
-visualize_codes(False, 1)
+# visualize_codes(True, 1)
+# visualize_codes(False, 1)
+
+df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject" ])
+save_csv(df, "data/example.csv")
