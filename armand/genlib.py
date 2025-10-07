@@ -67,11 +67,15 @@ def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str):
     mlb = preprocessing.MultiLabelBinarizer()
     
     #get the dataset from transformed column
-    new_df = pd.DataFrame(mlb.fit_transform(df[col_name].str.split(split_char)),
+    new_df = pd.DataFrame(mlb.fit_transform(df[col_name].str.strip(split_char).str.split(split_char)),
 		columns=mlb.classes_,
 		index=df.index
 	)
-    return pd.concat([df.drop(columns=col_name),new_df],axis=1)
+    return pd.concat([df.drop(columns=[col_name]), new_df], axis=1)
+
+def delete_empty_columns(df:pd.DataFrame):
+	return df.loc[:, (df != 0).any(axis=0)]
+
 
 def iterativeMultiHotEncoding(df:pd.DataFrame, col_names:list, split_char:str):
 	for name in col_names:
