@@ -2,7 +2,7 @@ import pandas as pd
 from genlib import visualize, get_csv
 
 def get_opinionated_csv():
-	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Institution', 'Journal', 'Publisher', 'Country', 'Author', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
+	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Journal', 'Publisher', 'Country', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
 
 def add_counted_dates(df:pd.DataFrame):
 	df['OriginalPaperDate'] = pd.to_datetime(df['OriginalPaperDate'])
