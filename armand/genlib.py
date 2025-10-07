@@ -7,10 +7,6 @@ def get_csv(filepath:str, index:str|int, array:list=None):
 		return pd.read_csv(filepath, index_col=index)
 	return pd.read_csv(filepath, index_col=index, usecols=array)
 
-def get_chunked_csv(filepath:str, index:str|int, array:list, chunksize:int=100_000):
-	df = pd.read_csv(filepath, index_col=index, usecols=array, chunksize=chunksize)
-	return df
-
 def save_csv(df:pd.DataFrame, path:str):
 	df.to_csv(path, index=True)
 

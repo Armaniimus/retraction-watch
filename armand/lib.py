@@ -5,17 +5,11 @@ def get_opinionated_csv():
 	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Institution', 'Journal', 'Publisher', 'Country', 'Author', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
 
 def add_counted_dates(df:pd.DataFrame):
-	processed_chunks = []
-	for chunk in df:
-		chunk['OriginalPaperDate'] = pd.to_datetime(chunk['OriginalPaperDate'], errors='coerce')
-		chunk['RetractionDate'] = pd.to_datetime(chunk['RetractionDate'], errors='coerce')
-		chunk['daysinbetween'] = chunk['RetractionDate'] - chunk['OriginalPaperDate']
+	df['OriginalPaperDate'] = pd.to_datetime(df['OriginalPaperDate'])
+	df['RetractionDate'] = pd.to_datetime(df['RetractionDate'])
+	df['days_between'] = (df['RetractionDate'] - df['OriginalPaperDate']).dt.days
 
-		processed_chunks.append(chunk)
-		out = pd.concat(processed_chunks, ignore_index=True)
-		out.index.name = "ID"
-
-	return out
+	return df
 
 def get_unique_values(df_in:pd.DataFrame, col_name:str):
 	unique_values = {}
