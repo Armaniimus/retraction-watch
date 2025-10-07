@@ -34,5 +34,22 @@ def save_days_inbetween():
 # visualize_codes(True, 1)
 # visualize_codes(False, 1)
 
-df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject" ])
-save_csv(df, "data/example.csv")
+# df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject" ])
+# save_csv(df, "data/example.csv")
+
+# df = get_opinionated_csv()
+# multi_encoded_df = multiHotEncoding(df, "Subject", ";")
+# print(multi_encoded_df)
+# save_csv(multi_encoded_df, "data/multiEncoding.csv")
+
+def encode_data():
+	df = get_opinionated_csv()
+	in2022 = cut2022(df)
+	data = add_counted_dates(in2022)
+	multi_encoded_df = iterativeMultiHotEncoding(data, ["Subject", "Reason", "Country", "ArticleType"], ";")
+	filteredDataframes = delete_empty_columns(multi_encoded_df)
+	
+	# print(filteredDataframes.value_counts())
+	print(filteredDataframes)
+	save_csv(filteredDataframes, "data/multiEncodingFiltered.csv")
+encode_data()
