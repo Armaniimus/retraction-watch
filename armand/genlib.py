@@ -1,27 +1,28 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def get_csv(source, index, array):
-	df = pd.read_csv(source, index_col=index, usecols=array)
+def get_csv(filepath:str, index:str|int, array:list=None):
+	if array == None:
+		return pd.read_csv(filepath, index_col=index)
+	return pd.read_csv(filepath, index_col=index, usecols=array)
+
+def get_chunked_csv(filepath:str, index:str|int, array:list, chunksize:int=100_000):
+	df = pd.read_csv(filepath, index_col=index, usecols=array, chunksize=chunksize)
 	return df
 
-def get_chunked_csv(source, index, array, chunksize=100_000):
-	df = pd.read_csv(source, index_col=index, usecols=array, chunksize=chunksize)
-	return df
-
-def save_csv(df, path):
+def save_csv(df:pd.DataFrame, path:str):
 	df.to_csv(path, index=True)
 
-def count(df, colName):
-	return df[colName].value_counts()
+def count(df:pd.DataFrame, col_name:str):
+	return df[col_name].value_counts()
 
-def count_total_values(df, colName):
-	return df[colName].nunique()
+def count_total_values(df:pd.DataFrame, col_name:str):
+	return df[col_name].nunique()
 
-def add_none_column(df):
+def add_none_column(df:pd.DataFrame):
 	return df.assign(None)
 
-def print_dataframe(df, max=float('inf')):
+def print_dataframe(df:pd.DataFrame, max=float('inf')):
 	headline = ""
 	if df.index.name == "":
 		headline += "index"
@@ -47,7 +48,7 @@ def print_dataframe(df, max=float('inf')):
 		
 		print(f"{line}")
 
-def visualize(df, title, labels, data, path=""):
+def visualize(df:pd.DataFrame, title:str, labels:str, data:str, path:str=""):
 	df.set_index(labels, inplace=True)
 	df.sort_values(by=data, ascending=True)
 	plt.figure(figsize=(10, 10))

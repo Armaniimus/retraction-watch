@@ -1,7 +1,10 @@
 import pandas as pd
 from genlib import visualize, get_csv
 
-def add_counted_dates(df):
+def get_opinionated_csv():
+	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Institution', 'Journal', 'Publisher', 'Country', 'Author', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
+
+def add_counted_dates(df:pd.DataFrame):
 	processed_chunks = []
 	for chunk in df:
 		chunk['OriginalPaperDate'] = pd.to_datetime(chunk['OriginalPaperDate'], errors='coerce')
@@ -14,12 +17,12 @@ def add_counted_dates(df):
 
 	return out
 
-def get_unique_values(dfIn, colName):
+def get_unique_values(df_in:pd.DataFrame, col_name:str):
 	unique_values = {}
 	
-	df = dfIn[[colName]].copy()
+	df = df_in[[col_name]].copy()
 	for row in df.itertuples():
-		splitfield = getattr(row, colName).split(';')
+		splitfield = getattr(row, col_name).split(';')
 		for s in splitfield:
 			if s in unique_values.keys():
 				unique_values[s] += 1
@@ -28,7 +31,7 @@ def get_unique_values(dfIn, colName):
 
 	out = {
 		"count": [],
-		colName: []
+		col_name: []
 	}
 	index = []
 
@@ -36,18 +39,18 @@ def get_unique_values(dfIn, colName):
 	for key in unique_values.keys():
 		index.append(id)
 		out["count"].append(unique_values[key])
-		out[colName].append(key)
+		out[col_name].append(key)
 		id += 1
 	out = pd.DataFrame(out, index=index)
 	out.index.name = "ID"
 	return out
 
-def get_unique_codes(dfIn, colName):
-	df = get_unique_values(dfIn, colName)
+def get_unique_codes(dfIn:pd.DataFrame, col_name:str):
+	df = get_unique_values(dfIn, col_name)
 
 	unique_values = {}
 	for row in df.itertuples():
-		field = getattr(row, colName)
+		field = getattr(row, col_name)
 		count = getattr(row, "count")
 		code = field[field.find('(') + 1:field.find(')')]
 		
@@ -72,7 +75,7 @@ def get_unique_codes(dfIn, colName):
 	out.index.name = "ID"
 	return out
 
-def combine_into_others(df, split_percentage, index):
+def combine_into_others(df:pd.DataFrame, split_percentage:int|float, index:str):
 	total = df["count"].sum()
 
 	# Calculate percentage
@@ -93,21 +96,21 @@ def combine_into_others(df, split_percentage, index):
 	# Sort again if needed
 	return main_df.sort_values(by="count", ascending=False).reset_index(drop=True)
 
-def cut2022(df):
+def cut2022(df:pd.DataFrame):
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
 
 	# Filter rows where year == 2022
 	return df[df["OriginalPaperDate"].dt.year == 2022]
 
-def cutNot2022(df):
+def cutNot2022(df:pd.DataFrame):
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
 
 	# Filter rows where year == 2022
 	return df[df["OriginalPaperDate"].dt.year != 2022]
 
-def visualize_general(collumn, in2022, cutPercentage):
+def visualize_general(collumn:str, in2022:bool, cut_percentage:int|float):
 	df = get_csv('data/source.csv', 'Record ID', ['Record ID', collumn, 'OriginalPaperDate' ])
 	if in2022:
 		df2022 = cutNot2022(df)
@@ -119,10 +122,10 @@ def visualize_general(collumn, in2022, cutPercentage):
 		path = f"figures/{collumn}s-2022.png"
 	data = get_unique_values(df2022, collumn)
 
-	data = combine_into_others(data, cutPercentage, collumn)
+	data = combine_into_others(data, cut_percentage, collumn)
 	visualize(data, title, collumn, 'count', path)
 	
-def visualize_codes(in2022, cutPercentage):
+def visualize_codes(in2022:bool, cut_percentage:int|float):
 	df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject", 'OriginalPaperDate' ])
 	if in2022:
 		df2022 = cutNot2022(df)
@@ -134,5 +137,5 @@ def visualize_codes(in2022, cutPercentage):
 		path = f"figures/codes-2022.png"
 	data = get_unique_codes(df2022, "Subject")
 
-	data = combine_into_others(data, cutPercentage, "code")
+	data = combine_into_others(data, cut_percentage, "code")
 	visualize(data, title, "code", 'count', path)
