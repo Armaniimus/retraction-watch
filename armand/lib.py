@@ -1,15 +1,13 @@
 import pandas as pd
-from genlib import visualize, get_csv
+from genlib import visualize, get_csv, add_counted_dates
 
 def get_opinionated_csv():
 	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Journal', 'Publisher', 'Country', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
 
-def add_counted_dates(df:pd.DataFrame):
-	df['OriginalPaperDate'] = pd.to_datetime(df['OriginalPaperDate'])
-	df['RetractionDate'] = pd.to_datetime(df['RetractionDate'])
-	df['days_between'] = (df['RetractionDate'] - df['OriginalPaperDate']).dt.days
 
-	return df
+def context_aware_add_counted_dates(df:pd.DataFrame, new_col_name:str):
+	date_format = "%m/%d/%Y %H:%M" #maand/dag/jaar uur:minuut
+	return add_counted_dates(df, "OriginalPaperDate", "RetractionDate", new_col_name, format=date_format)
 
 def get_unique_values(df_in:pd.DataFrame, col_name:str):
 	unique_values = {}

@@ -14,9 +14,22 @@ def saveUniqueCodes():
 	print_dataframe(data)
 
 def save_days_inbetween():
-	df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'RetractionDate', 'OriginalPaperDate'], 100_000)
-	data = add_counted_dates(df)
+	df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'RetractionDate', 'OriginalPaperDate'])
+	data = context_aware_add_counted_dates(df, "days_between") 
 	save_csv(data, "data/dates.csv")
+	print(data)
+
+def encode_data():
+	df = get_opinionated_csv()
+	in2022 = cut2022(df)
+	data = context_aware_add_counted_dates(in2022, "days_in_between")
+	multi_encoded_df = iterativeMultiHotEncoding(data, ["Subject", "Reason", "Country", "ArticleType"], ";")
+	filteredDataframes = delete_empty_columns(multi_encoded_df)
+	
+	print(filteredDataframes)
+	save_csv(filteredDataframes, "data/multiEncodingFiltered.csv")
+
+save_days_inbetween()
 
 # save_days_inbetween()
 # saveUniqueSubjects()
@@ -42,14 +55,5 @@ def save_days_inbetween():
 # print(multi_encoded_df)
 # save_csv(multi_encoded_df, "data/multiEncoding.csv")
 
-def encode_data():
-	df = get_opinionated_csv()
-	in2022 = cut2022(df)
-	data = add_counted_dates(in2022)
-	multi_encoded_df = iterativeMultiHotEncoding(data, ["Subject", "Reason", "Country", "ArticleType"], ";")
-	filteredDataframes = delete_empty_columns(multi_encoded_df)
-	
-	# print(filteredDataframes.value_counts())
-	print(filteredDataframes)
-	save_csv(filteredDataframes, "data/multiEncodingFiltered.csv")
-encode_data()
+
+# encode_data()

@@ -19,6 +19,14 @@ def count_total_values(df:pd.DataFrame, col_name:str):
 def add_none_column(df:pd.DataFrame):
 	return df.assign(None)
 
+def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_name:str, format:str=None):
+	#for format documentation see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+	df[start_date] = pd.to_datetime(df[start_date], format=format)
+	df[end_date] = pd.to_datetime(df[end_date], format=format)
+	df[new_col_name] = (df[end_date] - df[start_date]).dt.days
+
+	return df
+
 def print_dataframe(df:pd.DataFrame, max=float('inf')):
 	headline = ""
 	if df.index.name == "":
