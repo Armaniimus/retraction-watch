@@ -4,7 +4,6 @@ from genlib import visualize, get_csv, add_counted_dates
 def get_opinionated_csv():
 	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Journal', 'Publisher', 'Country', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
 
-
 def context_aware_add_counted_dates(df:pd.DataFrame, new_col_name:str):
 	date_format = "%m/%d/%Y %H:%M" #maand/dag/jaar uur:minuut
 	return add_counted_dates(df, "OriginalPaperDate", "RetractionDate", new_col_name, format=date_format)

@@ -55,5 +55,4 @@ save_days_inbetween()
 # print(multi_encoded_df)
 # save_csv(multi_encoded_df, "data/multiEncoding.csv")
 
-
 # encode_data()
