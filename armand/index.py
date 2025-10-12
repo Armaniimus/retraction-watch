@@ -1,3 +1,4 @@
+from levenshtein import *
 from genlib import *
 from lib import *
 
@@ -29,7 +30,7 @@ def encode_data():
 	print(filteredDataframes)
 	save_csv(filteredDataframes, "data/multiEncodingFiltered.csv")
 
-save_days_inbetween()
+# save_days_inbetween()
 
 # save_days_inbetween()
 # saveUniqueSubjects()
@@ -56,3 +57,16 @@ save_days_inbetween()
 # save_csv(multi_encoded_df, "data/multiEncoding.csv")
 
 # encode_data()
+
+# print(calc_distance("ab","ac"))
+# df = get_opinionated_csv()
+# dic = levenstein_distance_column(df, "Subject")
+# out = to_string_levenstein_distance_column(dic)
+# print(out)
+
+# df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Subject'])
+
+df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Subject', 'Country', 'ArticleType', 'Reason' ])
+dic = levenstein_distance_dataframe(df)
+out = to_string_levenstein_distance_dataframe(dic)
+print(out)
