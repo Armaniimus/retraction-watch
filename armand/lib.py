@@ -1,5 +1,5 @@
 import pandas as pd
-from genlib import visualize, get_csv, add_counted_dates
+from genlib import visualize, get_csv, add_counted_dates, get_unique_values
 
 def get_opinionated_csv():
 	return get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Journal', 'Publisher', 'Country', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
@@ -7,34 +7,6 @@ def get_opinionated_csv():
 def context_aware_add_counted_dates(df:pd.DataFrame, new_col_name:str):
 	date_format = "%m/%d/%Y %H:%M" #maand/dag/jaar uur:minuut
 	return add_counted_dates(df, "OriginalPaperDate", "RetractionDate", new_col_name, format=date_format)
-
-def get_unique_values(df_in:pd.DataFrame, col_name:str):
-	unique_values = {}
-	
-	df = df_in[[col_name]].copy()
-	for row in df.itertuples():
-		splitfield = getattr(row, col_name).split(';')
-		for s in splitfield:
-			if s in unique_values.keys():
-				unique_values[s] += 1
-			elif s != '':
-				unique_values[s] = 1		
-
-	out = {
-		"count": [],
-		col_name: []
-	}
-	index = []
-
-	id = 0
-	for key in unique_values.keys():
-		index.append(id)
-		out["count"].append(unique_values[key])
-		out[col_name].append(key)
-		id += 1
-	out = pd.DataFrame(out, index=index)
-	out.index.name = "ID"
-	return out
 
 def get_unique_codes(dfIn:pd.DataFrame, col_name:str):
 	df = get_unique_values(dfIn, col_name)

@@ -16,6 +16,34 @@ def count(df:pd.DataFrame, col_name:str):
 def count_total_values(df:pd.DataFrame, col_name:str):
 	return df[col_name].nunique()
 
+def get_unique_values(df_in:pd.DataFrame, col_name:str):
+	unique_values = {}
+	
+	df = df_in[[col_name]].copy()
+	for row in df.itertuples():
+		splitfield = getattr(row, col_name).split(';')
+		for s in splitfield:
+			if s in unique_values.keys():
+				unique_values[s] += 1
+			elif s != '':
+				unique_values[s] = 1		
+
+	out = {
+		"count": [],
+		col_name: []
+	}
+	index = []
+
+	id = 0
+	for key in unique_values.keys():
+		index.append(id)
+		out["count"].append(unique_values[key])
+		out[col_name].append(key)
+		id += 1
+	out = pd.DataFrame(out, index=index)
+	out.index.name = "ID"
+	return out
+
 def add_none_column(df:pd.DataFrame):
 	return df.assign(None)
 
@@ -84,7 +112,6 @@ def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str):
 
 def delete_empty_columns(df:pd.DataFrame):
 	return df.loc[:, (df != 0).any(axis=0)]
-
 
 def iterativeMultiHotEncoding(df:pd.DataFrame, col_names:list, split_char:str):
 	for name in col_names:
