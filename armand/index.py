@@ -66,7 +66,12 @@ def encode_data():
 
 # df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Subject'])
 
-df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Subject', 'Country', 'ArticleType', 'Reason' ])
-dic = levenstein_distance_dataframe(df)
-out = to_string_levenstein_distance_dataframe(dic)
-print(out)
+df = get_opinionated_csv()
+journal_df = count(df, "Journal")
+print(journal_df)
+save_csv(journal_df, "data/journal.csv")
+
+# df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Subject', 'Country', 'ArticleType', 'Reason' ])
+# dic = levenstein_distance_dataframe(df)
+# out = to_string_levenstein_distance_dataframe(dic)
+# print(out)
