@@ -21,11 +21,11 @@ def get_opinionated_csv() -> pd.DataFrame:
 
 	return pd.read_csv(filepath, index_col=index, usecols=columns, parse_dates=date_cols, dtype=datatypes)
 
-def context_aware_add_counted_dates(df:pd.DataFrame, new_col_name:str):
+def context_aware_add_counted_dates(df:pd.DataFrame, new_col_name:str) -> pd.DataFrame:
 	date_format = "%m/%d/%Y %H:%M" #maand/dag/jaar uur:minuut
 	return add_counted_dates(df, "OriginalPaperDate", "RetractionDate", new_col_name, format=date_format)
 
-def get_unique_codes(dfIn:pd.DataFrame, col_name:str):
+def get_unique_codes(dfIn:pd.DataFrame, col_name:str) -> pd.DataFrame:
 	df = get_unique_values(dfIn, col_name)
 
 	unique_values = {}
@@ -55,7 +55,7 @@ def get_unique_codes(dfIn:pd.DataFrame, col_name:str):
 	out.index.name = "ID"
 	return out
 
-def combine_into_others(df:pd.DataFrame, split_percentage:int|float, index:str):
+def combine_into_others(df:pd.DataFrame, split_percentage:int|float, index:str) -> pd.DataFrame:
 	total = df["count"].sum()
 
 	# Calculate percentage
@@ -76,21 +76,21 @@ def combine_into_others(df:pd.DataFrame, split_percentage:int|float, index:str):
 	# Sort again if needed
 	return main_df.sort_values(by="count", ascending=False).reset_index(drop=True)
 
-def cut2022(df:pd.DataFrame):
+def cut2022(df:pd.DataFrame) -> pd.DataFrame:
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
 
 	# Filter rows where year == 2022
-	return df[df["OriginalPaperDate"].dt.year == 2022]
+	return df[df["OriginalPaperDate"].dt.year == 2022].to_frame()
 
-def cutNot2022(df:pd.DataFrame):
+def cutNot2022(df:pd.DataFrame) -> pd.DataFrame:
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
 
 	# Filter rows where year == 2022
-	return df[df["OriginalPaperDate"].dt.year != 2022]
+	return df[df["OriginalPaperDate"].dt.year != 2022].to_frame()
 
-def visualize_general(collumn:str, in2022:bool, cut_percentage:int|float):
+def visualize_general(collumn:str, in2022:bool, cut_percentage:int|float) -> None:
 	df = get_csv('data/source.csv', 'Record ID', ['Record ID', collumn, 'OriginalPaperDate' ])
 	if in2022:
 		df2022 = cutNot2022(df)
@@ -105,7 +105,7 @@ def visualize_general(collumn:str, in2022:bool, cut_percentage:int|float):
 	data = combine_into_others(data, cut_percentage, collumn)
 	visualize(data, title, collumn, 'count', path)
 	
-def visualize_codes(in2022:bool, cut_percentage:int|float):
+def visualize_codes(in2022:bool, cut_percentage:int|float) -> None:
 	df = get_csv('data/source.csv', 'Record ID', ['Record ID', "Subject", 'OriginalPaperDate' ])
 	if in2022:
 		df2022 = cutNot2022(df)
