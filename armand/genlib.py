@@ -2,21 +2,21 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
-def get_csv(filepath:str, index:str|int, array:list=None):
+def get_csv(filepath:str, index:str|int, array:list=None) -> pd.DataFrame:
 	if array == None:
 		return pd.read_csv(filepath, index_col=index)
 	return pd.read_csv(filepath, index_col=index, usecols=array)
 
-def save_csv(df:pd.DataFrame, path:str):
+def save_csv(df:pd.DataFrame, path:str) -> None:
 	df.to_csv(path, index=True)
 
-def count(df:pd.DataFrame, col_name:str):
-	return df[col_name].value_counts()
+def count(df:pd.DataFrame, col_name:str) -> pd.DataFrame:
+	return df[col_name].value_counts().to_frame()
 
-def count_total_values(df:pd.DataFrame, col_name:str):
+def count_total_values(df:pd.DataFrame, col_name:str) -> int:
 	return df[col_name].nunique()
 
-def get_unique_values(df_in:pd.DataFrame, col_name:str):
+def get_unique_values(df_in:pd.DataFrame, col_name:str) -> pd.DataFrame:
 	unique_values = {}
 	
 	df = df_in[[col_name]].copy()
@@ -47,7 +47,7 @@ def get_unique_values(df_in:pd.DataFrame, col_name:str):
 def add_none_column(df:pd.DataFrame):
 	return df.assign(None)
 
-def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_name:str, format:str=None):
+def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_name:str, format:str=None) -> pd.DataFrame:
 	df = df.copy()
 	#for format documentation see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 	df[start_date] = pd.to_datetime(df[start_date], format=format)
@@ -56,7 +56,7 @@ def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_nam
 
 	return df
 
-def print_dataframe(df:pd.DataFrame, max=float('inf')):
+def print_dataframe(df:pd.DataFrame, max=float('inf')) -> None:
 	headline = ""
 	if df.index.name == "":
 		headline += "index"
@@ -82,7 +82,7 @@ def print_dataframe(df:pd.DataFrame, max=float('inf')):
 		
 		print(f"{line}")
 
-def visualize(df:pd.DataFrame, title:str, labels:str, data:str, path:str=""):
+def visualize(df:pd.DataFrame, title:str, labels:str, data:str, path:str="") -> None:
 	df.set_index(labels, inplace=True)
 	df.sort_values(by=data, ascending=True)
 	plt.figure(figsize=(10, 10))
@@ -99,7 +99,7 @@ def visualize(df:pd.DataFrame, title:str, labels:str, data:str, path:str=""):
 	else:
 		plt.show()
 
-def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str):
+def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str) -> pd.DataFrame:
 	#initiate the mlb instance
     mlb = preprocessing.MultiLabelBinarizer()
     
@@ -113,7 +113,7 @@ def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str):
 def delete_empty_columns(df:pd.DataFrame):
 	return df.loc[:, (df != 0).any(axis=0)]
 
-def iterativeMultiHotEncoding(df:pd.DataFrame, col_names:list, split_char:str):
+def iterativeMultiHotEncoding(df:pd.DataFrame, col_names:list, split_char:str) -> pd.DataFrame:
 	for name in col_names:
 		df = multiHotEncoding(df, name, split_char)
 	return df
