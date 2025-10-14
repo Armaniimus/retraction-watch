@@ -44,9 +44,6 @@ def get_unique_values(df_in:pd.DataFrame, col_name:str) -> pd.DataFrame:
 	out.index.name = "ID"
 	return out
 
-def add_none_column(df:pd.DataFrame):
-	return df.assign(None)
-
 def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_name:str, format:str=None) -> pd.DataFrame:
 	df = df.copy()
 	#for format documentation see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
