@@ -35,7 +35,6 @@ def levenstein_distance_dataframe(df:pd.DataFrame, distance_limit:int=3):
 		out[c_name] = levenstein_distance_column(df, c_name, distance_limit=distance_limit)
 
 	return out
-	
 			
 def to_string_levenstein_distance_column(levenstein:dict)->str:
 	out = ""
