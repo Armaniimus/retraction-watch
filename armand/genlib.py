@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas.api.types import is_string_dtype
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
@@ -11,38 +12,29 @@ def save_csv(df:pd.DataFrame, path:str) -> None:
 	df.to_csv(path, index=True)
 
 def count(df:pd.DataFrame, col_name:str) -> pd.DataFrame:
-	return df[col_name].value_counts().to_frame()
+	df_out = df[col_name].dropna()
+	
+	if is_string_dtype(df[col_name]):
+		df_out = df_out.str.strip()
+
+	df_out = df_out.value_counts().to_frame().reset_index()
+	
+	df_out.index.name = "ID"
+	df_out.columns = [col_name, 'count']
+	return df_out
 
 def count_total_values(df:pd.DataFrame, col_name:str) -> int:
 	return df[col_name].nunique()
 
-def get_unique_values(df_in:pd.DataFrame, col_name:str) -> pd.DataFrame:
-	unique_values = {}
+def get_unique_values(df_in:pd.DataFrame, col_name:str, split_str:str=";") -> pd.DataFrame:
+	temp_df = df_in[col_name].dropna().str.split(split_str, expand=True).stack()
+
+	df_out = temp_df.value_counts().to_frame().reset_index()
 	
-	df = df_in[[col_name]].copy()
-	for row in df.itertuples():
-		splitfield = getattr(row, col_name).split(';')
-		for s in splitfield:
-			if s in unique_values.keys():
-				unique_values[s] += 1
-			elif s != '':
-				unique_values[s] = 1		
+	df_out.index.name = "ID"
+	df_out.columns = [col_name, 'count']
 
-	out = {
-		"count": [],
-		col_name: []
-	}
-	index = []
-
-	id = 0
-	for key in unique_values.keys():
-		index.append(id)
-		out["count"].append(unique_values[key])
-		out[col_name].append(key)
-		id += 1
-	out = pd.DataFrame(out, index=index)
-	out.index.name = "ID"
-	return out
+	return df_out
 
 def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_name:str, format:str=None) -> pd.DataFrame:
 	df = df.copy()
