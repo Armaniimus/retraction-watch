@@ -27,13 +27,14 @@ def count_total_values(df:pd.DataFrame, col_name:str) -> int:
 	return df[col_name].nunique()
 
 def get_unique_values(df_in:pd.DataFrame, col_name:str, split_str:str=";") -> pd.DataFrame:
-	temp_df = df_in[col_name].dropna().str.split(split_str, expand=True).stack()
-
-	df_out = temp_df.value_counts().to_frame().reset_index()
+	if len(df_in) <= 0:	
+		return count(df_in, col_name)
 	
-	df_out.index.name = "ID"
+	temp_df = df_in[col_name].str.split(split_str, expand=True).stack()
+	df_out = temp_df.str.strip().value_counts(dropna=True).to_frame().reset_index()
 	df_out.columns = [col_name, 'count']
-
+	df_out = df_out[df_out[col_name] != '']
+	df_out.index.name = "ID"
 	return df_out
 
 def add_counted_dates(df:pd.DataFrame, start_date:str, end_date:str, new_col_name:str, format:str=None) -> pd.DataFrame:
