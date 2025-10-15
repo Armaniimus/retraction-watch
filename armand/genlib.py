@@ -97,10 +97,10 @@ def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str) -> pd.DataFr
 	)
     return pd.concat([df.drop(columns=[col_name]), new_df], axis=1)
 
-def delete_empty_columns(df:pd.DataFrame):
-	return df.loc[:, (df != 0).any(axis=0)]
-
 def iterativeMultiHotEncoding(df:pd.DataFrame, col_names:list, split_char:str) -> pd.DataFrame:
 	for name in col_names:
 		df = multiHotEncoding(df, name, split_char)
 	return df
+
+def delete_empty_columns(df:pd.DataFrame):
+	return df.loc[:, (df != 0).any(axis=0)]
