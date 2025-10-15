@@ -23,10 +23,7 @@ def count(df:pd.DataFrame, col_name:str) -> pd.DataFrame:
 	df_out.columns = [col_name, 'count']
 	return df_out
 
-def count_total_values(df:pd.DataFrame, col_name:str) -> int:
-	return df[col_name].nunique()
-
-def get_unique_values(df_in:pd.DataFrame, col_name:str, split_str:str=";") -> pd.DataFrame:
+def split_and_count(df_in:pd.DataFrame, col_name:str, split_str:str=";") -> pd.DataFrame:
 	if len(df_in) <= 0:	
 		return count(df_in, col_name)
 	

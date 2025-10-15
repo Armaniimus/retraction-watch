@@ -1,4 +1,4 @@
-from genlib import count, get_unique_values, visualize, multiHotEncoding, delete_empty_columns, iterativeMultiHotEncoding
+from genlib import count, split_and_count, add_counted_dates, delete_empty_columns, visualize, multiHotEncoding, iterativeMultiHotEncoding
 import pandas as pd
 import numpy as np
 
@@ -50,7 +50,7 @@ class TestGenlib_count(unittest.TestCase):
 		with self.assertRaises(KeyError):
 			count(input_df, 'NonExistentColumn')
 
-class TestGenlib_get_unique_values(unittest.TestCase):
+class Test_split_and_count(unittest.TestCase):
 	def test_standard_case_with_semicolon(self):
 		"""Tests the primary functionality with repeated and unique values."""
 		# 1. ARRANGE
@@ -70,7 +70,7 @@ class TestGenlib_get_unique_values(unittest.TestCase):
 		expected_df.index.name = "ID"
 
 		# 2. ACT
-		actual_df = get_unique_values(input_df, 'topics')
+		actual_df = split_and_count(input_df, 'topics')
 
 		# 3. ASSERT
 		# Sort values to ensure consistent order for comparison
@@ -87,7 +87,7 @@ class TestGenlib_get_unique_values(unittest.TestCase):
 		
 
 		# 2. ACT
-		actual_df = get_unique_values(input_df, 'topics')
+		actual_df = split_and_count(input_df, 'topics')
 
 		# 3. ASSERT
 		expected_df = pd.DataFrame({
@@ -105,7 +105,7 @@ class TestGenlib_get_unique_values(unittest.TestCase):
 		input_df = pd.DataFrame(data)
 
 		# 2. ACT
-		actual_df = get_unique_values(input_df, 'skills')
+		actual_df = split_and_count(input_df, 'skills')
 		actual_df = actual_df.sort_values(by='skills').reset_index(drop=True)
 
 		# 3. ASSERT
@@ -127,7 +127,7 @@ class TestGenlib_get_unique_values(unittest.TestCase):
 		expected_df.index.name = "ID"
 
 		# 2. ACT
-		actual_df = get_unique_values(input_df, 'colors', split_str=',')
+		actual_df = split_and_count(input_df, 'colors', split_str=',')
 
 		# 3. ASSERT
 		expected_df = expected_df.sort_values(by='colors').reset_index(drop=True)
@@ -145,7 +145,7 @@ class TestGenlib_get_unique_values(unittest.TestCase):
 		input_df = pd.DataFrame({'langs': [' Python ;Java', 'Go;', 'C#;;Go']})
 
 		# 2. ACT
-		actual_df = get_unique_values(input_df, 'langs')
+		actual_df = split_and_count(input_df, 'langs')
 		actual_df = actual_df.sort_values(by=['count', 'langs'], ascending=[False, True]).reset_index(drop=True)
 
 		# 3. ASSERT
@@ -165,7 +165,7 @@ class TestGenlib_get_unique_values(unittest.TestCase):
 
 		# 2. ACT & 3. ASSERT
 		with self.assertRaises(AttributeError):
-			get_unique_values(input_df, 'numbers')
+			split_and_count(input_df, 'numbers')
 
 
 

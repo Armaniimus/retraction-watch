@@ -1,5 +1,5 @@
 import pandas as pd
-from genlib import visualize, get_csv, add_counted_dates, get_unique_values
+from genlib import visualize, get_csv, add_counted_dates, split_and_count
 
 def get_opinionated_csv() -> pd.DataFrame:
 	filepath = 'data/source.csv'
@@ -26,7 +26,7 @@ def context_aware_add_counted_dates(df:pd.DataFrame, new_col_name:str) -> pd.Dat
 	return add_counted_dates(df, "OriginalPaperDate", "RetractionDate", new_col_name, format=date_format)
 
 def get_unique_codes(dfIn:pd.DataFrame, col_name:str) -> pd.DataFrame:
-	df = get_unique_values(dfIn, col_name)
+	df = split_and_count(dfIn, col_name)
 
 	unique_values = {}
 	for row in df.itertuples():
@@ -100,7 +100,7 @@ def visualize_general(collumn:str, in2022:bool, cut_percentage:int|float) -> Non
 		df2022 = cut2022(df)
 		title = f'Distribution of {collumn}s in 2022'
 		path = f"figures/{collumn}s-2022.png"
-	data = get_unique_values(df2022, collumn)
+	data = split_and_count(df2022, collumn)
 
 	data = combine_into_others(data, cut_percentage, collumn)
 	visualize(data, title, collumn, 'count', path)

@@ -4,7 +4,7 @@ from lib import *
 
 def saveUniqueSubjects():
 	df = get_csv('data/source.csv', 'Record ID', ['Record ID', 'Title', 'Subject', 'Institution', 'Journal', 'Publisher', 'Country', 'Author', 'ArticleType', 'RetractionDate', 'OriginalPaperDate', 'RetractionNature', 'Reason', 'Paywalled' ])
-	data = get_unique_values(df, "Subject")
+	data = split_and_count(df, "Subject")
 	save_csv(data, "data/subjects.csv")
 	print_dataframe(data)
 

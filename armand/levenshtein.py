@@ -1,4 +1,4 @@
-from genlib import get_unique_values
+from genlib import split_and_count
 import pandas as pd
 from Levenshtein import distance
 
@@ -7,7 +7,7 @@ def calc_distance(str1:str, str2:str)->int:
 
 def levenstein_distance_column(df:pd.DataFrame, col_name:str, distance_limit:int=3):
 	out = {}
-	names_df = get_unique_values(df, col_name)
+	names_df = split_and_count(df, col_name)
 	df_sorted = names_df.sort_values(by='count', ascending=False).reset_index(drop=True)
 	df_sorted2 = df_sorted.copy()
 
