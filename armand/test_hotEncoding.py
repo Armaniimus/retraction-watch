@@ -7,7 +7,7 @@ from hotEncoding import singleHotEncoding, multiHotEncoding, iterativeMultiHotEn
 
 class TestHotEncoding(unittest.TestCase):
 
-    def setup(self):
+    def setUp(self):
         """
         This method is called before each test. It sets up a sample DataFrame
         with various edge cases to test against.
