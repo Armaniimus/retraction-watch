@@ -1,7 +1,6 @@
 import pandas as pd
 from pandas.api.types import is_string_dtype
 import matplotlib.pyplot as plt
-from sklearn import preprocessing
 
 def get_csv(filepath:str, index:str|int, array:list=None) -> pd.DataFrame:
 	if array == None:
@@ -86,21 +85,7 @@ def visualize(df:pd.DataFrame, title:str, labels:str, data:str, path:str="") -> 
 	else:
 		plt.show()
 
-def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str) -> pd.DataFrame:
-	#initiate the mlb instance
-    mlb = preprocessing.MultiLabelBinarizer()
-    
-    #get the dataset from transformed column
-    new_df = pd.DataFrame(mlb.fit_transform(df[col_name].str.strip(split_char).str.split(split_char)),
-		columns=mlb.classes_,
-		index=df.index
-	)
-    return pd.concat([df.drop(columns=[col_name]), new_df], axis=1)
 
-def iterativeMultiHotEncoding(df:pd.DataFrame, col_names:list, split_char:str) -> pd.DataFrame:
-	for name in col_names:
-		df = multiHotEncoding(df, name, split_char)
-	return df
 
 def delete_empty_columns(df:pd.DataFrame):
 	return df.loc[:, (df != 0).any(axis=0)]
