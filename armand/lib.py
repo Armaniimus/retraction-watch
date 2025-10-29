@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from genlib import visualize, get_csv, add_counted_dates, split_and_count
 
 def get_opinionated_csv() -> pd.DataFrame:
@@ -76,19 +77,26 @@ def combine_into_others(df:pd.DataFrame, split_percentage:int|float, index:str) 
 	# Sort again if needed
 	return main_df.sort_values(by="count", ascending=False).reset_index(drop=True)
 
+def addIn2022(df): 
+	out = df.copy()
+	out['RetractionDate'] = pd.to_datetime(out['RetractionDate'])
+	out['in2022'] = np.where(out['RetractionDate'].dt.year == 2022, 1, 0)
+	return out
+
 def cut2022(df:pd.DataFrame) -> pd.DataFrame:
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
 
 	# Filter rows where year == 2022
-	return df[df["OriginalPaperDate"].dt.year == 2022].to_frame()
+	df[df["OriginalPaperDate"].dt.year == 2022]
+	return df[df["OriginalPaperDate"].dt.year == 2022]
 
 def cutNot2022(df:pd.DataFrame) -> pd.DataFrame:
 	# Convert 'published' column to datetime
 	df["OriginalPaperDate"] = pd.to_datetime(df['OriginalPaperDate'], errors='coerce')
 
 	# Filter rows where year == 2022
-	return df[df["OriginalPaperDate"].dt.year != 2022].to_frame()
+	return df[df["OriginalPaperDate"].dt.year != 2022]
 
 def visualize_general(collumn:str, in2022:bool, cut_percentage:int|float) -> None:
 	df = get_csv('data/source.csv', 'Record ID', ['Record ID', collumn, 'OriginalPaperDate' ])
