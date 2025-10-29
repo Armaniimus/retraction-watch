@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 class ML_Model_Builder:
 	def __init__(self, dataset: pd.DataFrame, target: pd.DataFrame, randomState:int = 42):
 		self.__model = None
+		self.randomState = randomState
 		
 		# First split: Separate the test set from the rest
 		x_train_val, test_x, y_train_val, test_y = train_test_split(
@@ -23,14 +24,16 @@ class ML_Model_Builder:
 			stratify=y_train_val
 		)
 
-		self.__train_x = train_x
-		self.__train_y = train_y
+		self.__data_train_x = train_x
+		self.__target_train_y = train_y
 
-		self.__val_x = val_x
-		self.__val_y = val_y
+		self.__data_test_x = test_x
+		self.__target_test_y = test_y
 
-		self.__test_x = test_x
-		self.__test_y = test_y
+		self.__data_val_x = val_x
+		self.__target_val_y = val_y
+
+		
 		
 		return self		
 	
@@ -43,33 +46,33 @@ class ML_Model_Builder:
 		return self
 	
 	def build(self):
-		if self.__x_train == None or self.__y_train == None:
-			error = f"training data is not loaded is x_train valid:{self.__x_train==None} is y_train valid:{self.__y_train==None}"
+		if self.__data_train_x == None or self.__target_train_y == None:
+			error = f"training data is not loaded is x_train valid:{self.__data_train_x==None} is y_train valid:{self.__target_train_y==None}"
 			raise Exception(error)
 		
-		if self.__x_val == None or self.__y_val == None:
-			error = f"validationdata is not loaded, is x_val valid:{self.__x_val==None}, is y_val valid:{self.__y_val==None}"
+		if self.__data_test_x == None or self.__target_test_y == None:
+			error = f"testdata is not loaded, is x_test valid:{self.__data_test_x==None}, is y_test valid:{self.__target_test_y==None}"
 			raise Exception(error)
 		
-		if self.__x_test == None or self.__y_test == None:
-			error = f"testdata is not loaded, is x_test valid:{self.__x_test==None}, is y_test valid:{self.__y_test==None}"
+		if self.__data_val_x == None or self.__target_val_y == None:
+			error = f"validationdata is not loaded, is x_val valid:{self.__data_val_x==None}, is y_val valid:{self.__target_val_y==None}"
 			raise Exception(error)
 		
 		if self.__model == None:
 			raise Exception(f"no model is set")
 		elif self.__model == "decision_tree":		
-			return Decision_Tree_Model(self.__x_train, self.__y_train, self.__x_val, self.__y_val, self.__x_test, self.__y_test)
+			return Decision_Tree_Model(self.__data_train_x, self.__target_train_y, self.__data_val_x, self.__target_val_y, self.__data_test_x, self.__target_test_y)
 		else:
 			raise Exception(f"invalid or not supported model is set")
 
 class Decision_Tree_Model:
-	def __init__(self, x_train, y_train, x_val, y_val, x_test, y_test):
+	def __init__(self, x_train, y_train, x_test, y_test, x_val, y_val):
 		self.__x_train = x_train
 		self.__y_train = y_train
-		self.__x_val = x_val
-		self.__y_val = y_val
 		self.__x_test = x_test
 		self.__y_test = y_test
+		self.__x_val = x_val
+		self.__y_val = y_val
 
 		return self
 
@@ -77,11 +80,11 @@ class Decision_Tree_Model:
 		self.__model = DecisionTreeClassifier(random_state=random_state)
 		self.__model.fit(self.__x_train, self.__y_train)
 		return self	
-
-	def getValidationPrediction(self):
-		y_pred_val = self.__model.predict(self.__x_val)
-		return accuracy_score(self.__y_val, y_pred_val)
 	
 	def getTestPrediction(self):
 		y_pred_test = self.__model.predict(self.__x_test)
 		return accuracy_score(self.__y_test, y_pred_test)
+	
+	def getValidationPrediction(self):
+		y_pred_val = self.__model.predict(self.__x_val)
+		return accuracy_score(self.__y_val, y_pred_val)
