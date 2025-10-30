@@ -1,7 +1,9 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.tree import plot_tree
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 class ML_Model_Builder:
 	def __init__(self, dataset: pd.DataFrame, target: pd.DataFrame, random_state:int = 42):
@@ -9,7 +11,7 @@ class ML_Model_Builder:
 		self.random_state = random_state
 		
 		# First split: Separate the test set from the rest
-		x_train_val, test_x, y_train_val, test_y = train_test_split(
+		train_val_x, test_x, train_val_y, test_y = train_test_split(
 			dataset, target,
 			test_size=0.2,
 			random_state=self.random_state,
@@ -18,10 +20,10 @@ class ML_Model_Builder:
 
 		# Second split: Separate the training and validation sets
 		train_x, val_x, train_y, val_y = train_test_split(
-			x_train_val, y_train_val,
+			train_val_x, train_val_y,
 			test_size=0.25, # 25% of 80 = 20
 			random_state=self.random_state,
-			stratify=y_train_val
+			stratify=train_val_y
 		)
 
 		self.__data_train_x = train_x
@@ -71,19 +73,44 @@ class Decision_Tree_Model:
 		self.__y_val = y_val
 		self.__random_state = random_state
 
+		self.__model = None
+
 	def setRandomstate(self, random_state=42):
 		self.__random_state = random_state
 		return self
 
-	def train(self):
-		self.__model = DecisionTreeClassifier(random_state=self.__random_state)
+	def train(self, max_depth=None):
+		self.__model = DecisionTreeClassifier(random_state=self.__random_state, max_depth=max_depth)
 		self.__model.fit(self.__x_train, self.__y_train)
+		
 		return self	
+	
+	def get_max_depth(self):
+		return self.__model.get_depth()
 	
 	def getTestPrediction(self):
 		y_pred_test = self.__model.predict(self.__x_test)
-		return accuracy_score(self.__y_test, y_pred_test)
+		return accuracy_score(y_true=self.__y_test, y_pred=y_pred_test)
 	
 	def getValidationPrediction(self):
 		y_pred_val = self.__model.predict(self.__x_val)
-		return accuracy_score(self.__y_val, y_pred_val)
+		return accuracy_score(y_true=self.__y_val, y_pred=y_pred_val)
+	
+	def findMaxAccuracy(self):
+		max = self.train().get_max_depth()
+
+		for max_depth in range(1, max):
+			accuracy = self.train(max_depth).getValidationPrediction()
+			print(f"max_depth={max_depth} accuracy={accuracy}")
+		
+	def getTreePlot(self):
+		plot_tree (
+			self.__model,
+
+			feature_names=self.__x_train.columns.tolist(),
+			class_names=['Not in 2022', 'In 2022'],
+			filled=True,
+			rounded=True,
+			fontsize=10
+		)
+		plt.show()
