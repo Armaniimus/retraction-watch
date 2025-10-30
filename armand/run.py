@@ -1,5 +1,5 @@
 import pandas as pd
-from model_training import ML_Model_Builder
+from libs.train.model_training import ML_Model_Builder
 data = pd.read_csv('data/train_set.csv', index_col='Record ID')
 target = pd.read_csv('data/target_set.csv', index_col='Record ID')
 

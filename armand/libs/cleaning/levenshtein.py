@@ -1,4 +1,4 @@
-from genlib import split_and_count
+from libs.cleaning.genlib import split_and_count
 import pandas as pd
 from Levenshtein import distance
 

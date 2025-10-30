@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 # Import the functions you want to test
-from hotEncoding import singleHotEncoding, multiHotEncoding, iterativeMultiHotEncoding, allHotencoding
+from libs.cleaning.hotEncoding import singleHotEncoding, multiHotEncoding, iterativeMultiHotEncoding, allHotencoding
 
 class TestHotEncoding(unittest.TestCase):
 

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from genlib import visualize, get_csv, add_counted_dates, split_and_count
+from libs.cleaning.genlib import visualize, get_csv, add_counted_dates, split_and_count
 
 def get_opinionated_csv() -> pd.DataFrame:
 	filepath = 'data/source.csv'

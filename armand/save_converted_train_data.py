@@ -1,6 +1,6 @@
-from genlib import save_csv
-from hotEncoding import *
-from lib import get_opinionated_csv, addIn2022, context_aware_add_counted_dates
+from libs.cleaning.genlib import save_csv
+from libs.cleaning.hotEncoding import *
+from libs.cleaning.lib import get_opinionated_csv, addIn2022, context_aware_add_counted_dates
 
 def save_data():
 	df = get_opinionated_csv()

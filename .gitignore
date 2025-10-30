@@ -2,3 +2,5 @@
 /armand/__pycache__
 /armand/figures
 .vscode/settings.json
+/armand/libs/cleaning/__pycache__
+/armand/libs/train/__pycache__

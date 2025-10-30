@@ -1,4 +1,4 @@
-from genlib import count, split_and_count
+from libs.cleaning.genlib import count, split_and_count
 import pandas as pd
 import numpy as np
 
