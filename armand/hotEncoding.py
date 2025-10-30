@@ -31,7 +31,5 @@ def multiHotEncoding(df:pd.DataFrame, col_name:str, split_char:str) -> pd.DataFr
 
 def singleHotEncoding(df:pd.DataFrame, col_names: list) -> pd.DataFrame:
 	df_out = pd.get_dummies(df, columns=col_names, prefix=col_names, dummy_na=True)
-	# for col in df_out.select_dtypes(include=['bool']).columns:
-	# 	df_out[col] = df_out[col].astype(int)
 		   
 	return df_out
