@@ -114,3 +114,10 @@ class Decision_Tree_Model:
 			fontsize=10
 		)
 		plt.show()
+
+	def getConfusionMatrix(self):
+		test_prediction_y = self.__model.predict(self.__x_val)
+		cm = confusion_matrix(y_true=self.__y_test, y_pred=test_prediction_y)
+		disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+		disp.plot()
+		plt.show()
