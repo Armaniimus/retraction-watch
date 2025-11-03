@@ -8,14 +8,15 @@ def save_data():
 	data = context_aware_add_counted_dates(df, "days_in_between")
 
 	train_set= allHotencoding(data, ['RetractionNature', 'Paywalled'], ["Subject", "Reason", "Country", "ArticleType"], ";")
-	target_set = addIn2022(train_set.copy())
-	target_set = target_set["in2022"]
+	train_set = addIn2022(train_set.copy())
       
 	train_set['OriginalPaperDate'] = robust_date_to_timestamp(train_set['OriginalPaperDate'])
-	train_set = train_set.drop(columns=['RetractionDate'])
-
-	save_csv(train_set,  "data/train_set.csv")
-	save_csv(target_set, "data/target_set.csv")
+	train_set = train_set[train_set['OriginalPaperDate'] >= 0]
+	target_set = train_set["in2022"]
+	train_set = train_set.drop(columns=['RetractionDate', 'in2022']) 
+	
+	train_set.to_csv("data/train_set.csv", index=False)
+	target_set.to_csv("data/target_set.csv", index=False)
 
 def robust_date_to_timestamp(series: pd.Series) -> pd.Series:
     numeric_series = pd.to_numeric(series, errors='coerce')
