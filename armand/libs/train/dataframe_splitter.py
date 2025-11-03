@@ -7,9 +7,9 @@ from sklearn.feature_selection import SelectKBest, chi2
 @dataclass
 class DataSplitsBase:
     """Bevat de train, validate, en test sets."""
-    train: pd.DataFrame | pd.Series
-    val: pd.DataFrame | pd.Series
-    test: pd.DataFrame | pd.Series
+    train: pd.DataFrame
+    val: pd.DataFrame
+    test: pd.DataFrame
 
 @dataclass
 class X_split(DataSplitsBase):
@@ -36,6 +36,14 @@ def split_dataframe(df: pd.DataFrame, target_df: pd.DataFrame, random_state: int
 		random_state=random_state,
 		stratify=y_train_val
 	)
+      
+	x_train.index.delete
+	x_test.index.delete
+	x_val.index.delete
+     
+	y_train.index.delete
+	y_test.index.delete
+	y_val.index.delete
 
 	# 3. Maak de objecten aan
 	x = X_split(train=x_train, test=x_test, val=x_val)
@@ -52,7 +60,11 @@ def select_features(split_x, split_y, k_best_features = 195):
 	selected_features = selector.get_feature_names_out()
 	x_test = split_x.test[selected_features]
 	x_val = split_x.val[selected_features]
-		
+      
+	x_train.index.delete
+	x_test.index.delete
+	x_val.index.delete
+
 	x_out = X_split(train=x_train, test=x_test, val=x_val)
 	return x_out
     
